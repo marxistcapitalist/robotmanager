@@ -1,6 +1,10 @@
 package net.robotmanager.server;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
 
 public class ServerManager {
 
@@ -8,8 +12,17 @@ public class ServerManager {
 
     public void startServer() {
         if(server == null) {
-            System.out.println("Hold up, I don't have a server! Let me get one for you...");
-            this.server = new Server(8080);
+            this.server = new Server();
+
+            // HTTP Server Connector
+            ServerConnector http = new ServerConnector(server);
+            http.setHost("localhost");
+            http.setPort(80);
+            http.setIdleTimeout(30000);
+
+            server.addConnector(http);
+            server.setHandler(this.generateHandlers());
+
             try {
                 this.server.start();
                 server.dumpStdErr();
@@ -20,6 +33,12 @@ public class ServerManager {
             }
         }
         System.out.println("BEEP started!");
+    }
+
+    private HandlerList generateHandlers() {
+        HandlerList handlers = new HandlerList();
+        handlers.setHandlers(new Handler[] { new DefaultHandler() });
+        return handlers;
     }
 
 }
