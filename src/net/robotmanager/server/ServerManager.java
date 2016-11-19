@@ -6,6 +6,8 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 
+import java.net.BindException;
+
 public class ServerManager {
 
     private Server server;
@@ -22,17 +24,30 @@ public class ServerManager {
 
             server.addConnector(http);
             server.setHandler(this.generateHandlers());
-
-            try {
-                this.server.start();
-                server.dumpStdErr();
-            }
-            catch(Exception e) {
-                e.printStackTrace();
-                System.out.println("Oh no, something went wrong!");
-            }
+        }
+        try {
+            this.server.start();
+            server.dumpStdErr();
+        }
+        catch(BindException e) {
+            System.out.println("Oh no, the server couldn't bind!");
+            System.out.println("Check for other applications that may be using port 80, close them, and try again.");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("Oh no, something went wrong!");
         }
         System.out.println("BEEP started!");
+    }
+
+    public void stopServer() {
+        try {
+            this.server.stop();
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("Oh no, something went wrong!");
+        }
+
     }
 
     private HandlerList generateHandlers() {

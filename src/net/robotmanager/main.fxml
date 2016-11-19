@@ -17,7 +17,7 @@
             <Menu mnemonicParsing="false" text="Server">
                <items>
                   <MenuItem fx:id="menu_server_start" mnemonicParsing="false" onAction="#actionServerStart" text="Start" />
-                  <MenuItem fx:id="menu_server_stop" mnemonicParsing="false" onAction="#actionServerStop" text="Start" />
+                  <MenuItem fx:id="menu_server_stop" mnemonicParsing="false" onAction="#actionServerStop" text="Stop" />
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Help">

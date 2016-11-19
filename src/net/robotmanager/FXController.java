@@ -18,6 +18,7 @@ public class FXController {
     @FXML
     protected void actionServerStop() {
         System.out.println("RERRrrr shutting down...");
+        manager.getServerManager().stopServer();
         System.out.println("BEEP stopped!");
     }
 
